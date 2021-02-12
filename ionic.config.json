@@ -1,0 +1,7 @@
+{
+  "name": "GardenCalculator2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
