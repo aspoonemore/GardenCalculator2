@@ -6,7 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  raisedBedLengthFeet: number;
+  raisedBedWidthFeet: number;
+  raisedBedHeightInches: number;
+  soilVolume: number;
 
   constructor() {}
 
+  calculateSoilVolume() {
+    let raisedBedHeightFeet = this.raisedBedHeightInches / 12;
+    this.soilVolume = raisedBedHeightFeet * this.raisedBedLengthFeet * this.raisedBedWidthFeet;
+    console.log(this.soilVolume);
+  }
 }

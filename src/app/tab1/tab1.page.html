@@ -8,11 +8,27 @@
 <ion-card>
   <ion-card-header>
     <ion-card-subtitle>From Seed to Spoon</ion-card-subtitle>
-    <ion-card-title>Garden Calculator</ion-card-title>
+    <ion-card-title style="color: #2ca58d;">Garden Calculator</ion-card-title>
   </ion-card-header>
 
   <ion-card-content>
-
+    Calculate the amount of soil required to fill your raised bed below!
+    <ion-item style="margin-top: 20px;">
+      <ion-label position="stacked">Raised Bed Length (ft)</ion-label>
+      <ion-input [(ngModel)]="raisedBedLengthFeet"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Raised Bed Width (ft)</ion-label>
+      <ion-input [(ngModel)]="raisedBedWidthFeet"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Raised Bed Height (in)</ion-label>
+      <ion-input [(ngModel)]="raisedBedHeightInches"></ion-input>
+    </ion-item>
+    <ion-button expand="block" (click)="calculateSoilVolume()">Calculate Volume</ion-button>
+    <ion-text *ngIf="soilVolume != null">
+      <h2 style="text-align: center; margin-top: 20px">The calculated soil volume is {{ soilVolume }}</h2>
+    </ion-text>
   </ion-card-content>
 </ion-card>
 
