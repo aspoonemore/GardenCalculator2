@@ -25,10 +25,20 @@
       <ion-label position="stacked">Raised Bed Height (in)</ion-label>
       <ion-input [(ngModel)]="raisedBedHeightInches"></ion-input>
     </ion-item>
-    <ion-button expand="block" (click)="calculateSoilVolume()">Calculate Volume</ion-button>
-    <ion-text *ngIf="soilVolume != null">
-      <h2 style="text-align: center; margin-top: 20px">The calculated soil volume is {{ soilVolume }}</h2>
+    <ion-button expand="block" (click)="addToGardenList()">Add to Garden</ion-button>
+    <ion-text>
+      <p>The total volume is {{ totalVolume }}</p>
     </ion-text>
+    <ion-list>
+      <ion-item *ngFor="let raisedBed of testGarden">
+        <ion-text class="ion-text-center" style="width: 100%;">
+          <div>Length: {{ raisedBed.raisedBedLengthFeet }}</div>
+          <div>Height: {{ raisedBed.raisedBedHeightFeet }}</div>
+          <div>Width: {{ raisedBed.raisedBedWidthFeet }}</div>
+          <div>Volume: {{ raisedBed.soilVolume }}</div>
+        </ion-text>
+      </ion-item>
+    </ion-list>
   </ion-card-content>
 </ion-card>
 
