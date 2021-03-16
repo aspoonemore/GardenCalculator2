@@ -15,11 +15,13 @@ export class Tab1Page {
   raisedBedName: string;
   raisedBedLengthFeet: number = 8;
   raisedBedWidthFeet: number = 4;
-  raisedBedHeightInches: number = 12;
+  raisedBedHeightInches: number = 16;
   soilVolume: number;
   testGarden: RaisedBed[] = [];
   totalVolume: number = 0;
+
   constructor() {}
+
   addToGardenList() {
     let raisedBedHeightFeet = this.raisedBedHeightInches / 12;
     this.soilVolume = raisedBedHeightFeet * this.raisedBedLengthFeet * this.raisedBedWidthFeet;
@@ -34,6 +36,7 @@ export class Tab1Page {
     this.updateTotalVolume(this.soilVolume);
     console.log(this.testGarden)
   }
+
   updateTotalVolume(newVolume: number) {
     this.totalVolume += newVolume;
   }
