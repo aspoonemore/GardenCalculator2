@@ -2,7 +2,6 @@
   <ion-toolbar>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
 <img src="assets/logo.png">
 <ion-card>
@@ -10,7 +9,6 @@
     <ion-card-subtitle>From Seed to Spoon</ion-card-subtitle>
     <ion-card-title style="color: #2ca58d;">Garden Calculator</ion-card-title>
   </ion-card-header>
-
   <ion-card-content>
     Calculate the amount of soil required to fill your raised bed below!
     <ion-item style="margin-top: 20px;">
@@ -25,24 +23,41 @@
       <ion-label position="stacked">Raised Bed Height (in)</ion-label>
       <ion-input [(ngModel)]="raisedBedHeightInches"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Raised Bed Name</ion-label>
+      <ion-input [(ngModel)]="raisedBedName"></ion-input>
+    </ion-item>
     <ion-button expand="block" (click)="addToGardenList()">Add to Garden</ion-button>
-    <ion-text>
-      <p>The total volume is {{ totalVolume }}</p>
-    </ion-text>
     <ion-list>
-      <ion-item *ngFor="let raisedBed of testGarden">
-        <ion-text class="ion-text-center" style="width: 100%;">
+        <ion-card *ngFor="let raisedBed of testGarden; let i = index" class="ion-no-padding ion-margin-top" style="border: 1px solid lightgray">
+          <ion-card-content class="ion-no-padding">
+            <ion-text class="ion-text-center">
+              <h1>
+                Garden {{ i+1 }}
+              </h1>
+           </ion-text>
+           <ion-item lines="none">
+             <ion-label>Length: {{ raisedBed.raisedBedLengthFeet }}</ion-label>
+             <ion-label>Height: {{ raisedBed.raisedBedHeightFeet }}</ion-label>
+             <ion-label>Width: {{ raisedBed.raisedBedWidthFeet }}</ion-label>
+            </ion-item>
+            <ion-text class="ion-text-center">
+              <h1>Soil Volume: {{ raisedBed.soilVolume }}</h1>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+        <!-- <ion-text class="ion-text-center" style="width: 100%;">
           <div>Length: {{ raisedBed.raisedBedLengthFeet }}</div>
           <div>Height: {{ raisedBed.raisedBedHeightFeet }}</div>
           <div>Width: {{ raisedBed.raisedBedWidthFeet }}</div>
           <div>Volume: {{ raisedBed.soilVolume }}</div>
-        </ion-text>
-      </ion-item>
+        </ion-text> -->
     </ion-list>
   </ion-card-content>
 </ion-card>
-
+<ion-text class="ion-text-center">
+  <h1>The total volume is {{ totalVolume }}</h1>
+</ion-text>
 </ion-content>
 <ion-footer>
-
 </ion-footer>
