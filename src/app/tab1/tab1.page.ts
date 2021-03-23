@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { Guid } from 'guid-typescript';
 export interface RaisedBed {
+  raisedBedId: Guid;
   raisedBedName: string;
   raisedBedLengthFeet: number;
   raisedBedWidthFeet: number;
@@ -13,31 +16,75 @@ export interface RaisedBed {
 })
 export class Tab1Page {
   raisedBedName: string;
-  raisedBedLengthFeet: number = 8;
-  raisedBedWidthFeet: number = 4;
-  raisedBedHeightInches: number = 16;
+  raisedBedLengthFeet: number;
+  raisedBedWidthFeet: number;
+  raisedBedHeightInches: number;
   soilVolume: number;
-  testGarden: RaisedBed[] = [];
+  raisedBeds: RaisedBed[] = [];
   totalVolume: number = 0;
 
-  constructor() {}
+  constructor(public alertController: AlertController) {}
 
   addToGardenList() {
     let raisedBedHeightFeet = this.raisedBedHeightInches / 12;
     this.soilVolume = raisedBedHeightFeet * this.raisedBedLengthFeet * this.raisedBedWidthFeet;
+    const newGuid = Guid.create();
     let newTestRaisedBed: RaisedBed = {
       raisedBedName: this.raisedBedName,
       raisedBedHeightFeet: raisedBedHeightFeet,
       raisedBedLengthFeet: this.raisedBedLengthFeet,
       raisedBedWidthFeet: this.raisedBedWidthFeet,
       soilVolume: this.soilVolume,
+      raisedBedId: newGuid
     }
-    this.testGarden.push(newTestRaisedBed);
+    this.raisedBeds.push(newTestRaisedBed);
     this.updateTotalVolume(this.soilVolume);
-    console.log(this.testGarden)
+    console.log(this.raisedBeds)
+    this.raisedBedName = '';
   }
 
   updateTotalVolume(newVolume: number) {
     this.totalVolume += newVolume;
   }
+
+  async confirmDeleteRaisedBed(raisedBed: RaisedBed, index: number) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Delete Raised Bed?',
+      message: `Are you sure you want to delete ${this.determineRaisedBedName(raisedBed, index)}?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            
+          }
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.deleteGarden(raisedBed.raisedBedId);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  deleteGarden(raisedBedId: Guid) {
+    console.log(raisedBedId);
+    let newRaisedBeds = this.raisedBeds.filter(x => {
+      console.log(raisedBedId.equals(raisedBedId));
+      return !raisedBedId.equals(x.raisedBedId)
+    })
+    this.raisedBeds = newRaisedBeds;
+  }
+
+  determineRaisedBedName(raisedBed: RaisedBed, index: number) {
+    if (raisedBed.raisedBedName) {
+      return raisedBed.raisedBedName
+    } else return `Garden ${index}`
+  }
+
 }

@@ -29,11 +29,22 @@
     </ion-item>
     <ion-button expand="block" (click)="addToGardenList()">Add to Garden</ion-button>
     <ion-list>
-        <ion-card *ngFor="let raisedBed of testGarden; let i = index" class="ion-no-padding ion-margin-top ion-no-margin" style="border: 1px solid lightgray">
+        <ion-card *ngFor="let raisedBed of raisedBeds; let i = index" class="ion-no-padding ion-margin-top ion-no-margin" style="border: 1px solid lightgray">
           <ion-card-content class="ion-no-padding">
             <ion-text class="ion-text-center">
-              <h1 *ngIf="!raisedBed.raisedBedName" style="background-color: #0a2432; color: #fffdf7">Garden {{ i+1 }}</h1>
-              <h1 *ngIf="raisedBed.raisedBedName" style="background-color: #0a2432; color: #fffdf7">{{raisedBed.raisedBedName}}</h1>
+                <div style="background-color: #0a2432; display: flex; justify-content: space-between;">
+                  <div></div>
+                  <div>
+                    <h1 style=" color: #fffdf7; ">{{ determineRaisedBedName(raisedBed, i + 1) }}</h1>
+                  </div>
+                  <div>
+                    <ion-text>
+                      <ion-icon name="trash-outline" class="deleteIcon" (click)="confirmDeleteRaisedBed(raisedBed, i + 1)"></ion-icon>
+                    </ion-text>
+                  </div>
+                </div>
+                
+                
            </ion-text>
            <ion-item lines="none">
              <ion-label class="textSmall">Length: {{ raisedBed.raisedBedLengthFeet | number: '1.0-2' }}</ion-label>
