@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Guid } from 'guid-typescript';
+import { LocalStorageService } from '../services/local-storage.service';
 export interface RaisedBed {
   raisedBedId: Guid;
   raisedBedName: string;
@@ -14,7 +15,7 @@ export interface RaisedBed {
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit{
   raisedBedName: string;
   raisedBedLengthFeet: number;
   raisedBedWidthFeet: number;
@@ -23,7 +24,11 @@ export class Tab1Page {
   raisedBeds: RaisedBed[] = [];
   totalVolume: number = 0;
 
-  constructor(public alertController: AlertController) {}
+  constructor(public alertController: AlertController, private localStorageService: LocalStorageService) {}
+
+  ngOnInit(){
+    this.loadRaisedBeds();
+  }
 
   addToGardenList() {
     let raisedBedHeightFeet = this.raisedBedHeightInches / 12;
@@ -39,12 +44,23 @@ export class Tab1Page {
     }
     this.raisedBeds.push(newTestRaisedBed);
     this.updateTotalVolume(this.soilVolume);
-    console.log(this.raisedBeds)
+    this.saveRaisedBeds();
     this.raisedBedName = '';
   }
 
   updateTotalVolume(newVolume: number) {
     this.totalVolume += newVolume;
+  }
+
+  saveRaisedBeds(){
+    this.localStorageService.setRaisedBeds(this.raisedBeds);
+  }
+
+  loadRaisedBeds(){
+    this.localStorageService.getRaisedBeds().then(res => {
+      if(res)
+      this.raisedBeds = res
+    });
   }
 
   async confirmDeleteRaisedBed(raisedBed: RaisedBed, index: number) {
@@ -64,6 +80,7 @@ export class Tab1Page {
           text: 'Yes',
           handler: () => {
             this.deleteGarden(raisedBed.raisedBedId);
+            this.saveRaisedBeds();
           }
         }
       ]
@@ -75,7 +92,7 @@ export class Tab1Page {
   deleteGarden(raisedBedId: Guid) {
     console.log(raisedBedId);
     let newRaisedBeds = this.raisedBeds.filter(x => {
-      console.log(raisedBedId.equals(raisedBedId));
+      
       return !raisedBedId.equals(x.raisedBedId)
     })
     this.raisedBeds = newRaisedBeds;
